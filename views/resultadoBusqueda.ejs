@@ -8,9 +8,53 @@
 
     <main>
         <section class="center main-content">
-        <h1>Resultados de búsqueda.</h1>
-        <p>Construir la vista.</p>
-        </section>
+
+            <h1>Resultados de búsqueda.</h1>
+
+            <% for(let i = 0; i < posteos.length; i++) { %>
+                <% let post = posteos[i] %>
+                <article class="post">
+                    <div class="info-usuario">
+                        <img src="/images/usuarios/<%= post.usuario.foto %>" alt="">
+                        <h4>
+                            <a href="/users/detalleUsuario/<%= post.id_usuario %>"><%= post.usuario.user %></a>
+                        </h4>
+                    </div>
+                    <div class="post-body">
+                        <a href="/posts/detallePost/<%=post.id%>">
+                            <img src="/images/posts/<%= post.nombre_imagen %>" alt="">
+                        </a>
+                        <p><%= post.texto_imagen %></p>
+                    </div>
+                    <ul class="post-reacciones">
+                        <li>
+                            <i class="fa-regular fa-heart"></i>
+                        </li>
+                        <li>
+                            <i class="fa-regular fa-comment"></i>
+                        </li>
+                    </ul>
+                    <div class="post-comentarios">
+                        <h4>Comentarios</h4>
+                        <ul>
+                            <% for(let j = 0; j < post.comentario.length; j++) { %>
+                                <% let comentario = post.comentario[j] %>
+                                <li>
+                                    <a href="/users/detalleUsuario/<%= comentario.id_usuario %>"><%= comentario.usuario.email %></a>
+                                    <span><%= comentario.texto_comentario %></span>
+                                </li>
+                            <% } %>
+                            <a href="/posts/detallePost/<%= post.id %>">Ver más...</a>
+                        </ul>
+                    </div>
+                </article>
+            <% } %>
+
+            <% if(posteos.length == 0) { %>
+                <h3>No hay resultados</h3>
+            <% } %>
+           
+        </section>    
     </main>
     
     <%- include('./partials/header') %>

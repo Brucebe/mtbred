@@ -13,6 +13,9 @@ module.exports = function (sequelize, dataTypes ) {
             primaryKey : true,
             type : dataTypes.INTEGER
         },
+        user : {
+            type : dataTypes.STRING
+        },
         email : {
             type : dataTypes.STRING
         },
@@ -40,7 +43,32 @@ module.exports = function (sequelize, dataTypes ) {
 
     /* 5to paso : crear el metodo define() con los 3 parametros */
     
-    return sequelize.define(alias, cols, config);
+    const Usuario = sequelize.define(alias, cols, config);
 
+
+    Usuario.associate = function(models) {
+        Usuario.hasMany(models.Posteo, {
+            foreignKey: 'id_usuario',
+            as: 'posteos'
+        })
+
+        Usuario.belongsToMany(models.Usuario, {
+            as: 'misSeguidores',
+            through: 'seguidores',
+            foreignKey: 'id_seguido',
+            otherKey: 'id_seguidor',
+            timestamps: true  
+        })
+
+
+        Usuario.belongsToMany(models.Usuario, {
+            as: 'misSeguidos',
+            through: 'seguidores',
+            foreignKey: 'id_seguidor',
+            otherKey: 'id_seguido',
+            timestamps: true  
+        })
+    }
    
+    return Usuario;
 }

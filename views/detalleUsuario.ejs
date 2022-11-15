@@ -9,26 +9,29 @@
     <main>
         <div class="user-detail container">
             <section class="top main-content">
-                <% for(let i = 1; i < posteos.length; i++) { %>
-                    <% let post = posteos[i] %>
-                <img class="profile" src="<%=post.foto_perfil%>" alt="">
-                <% } %>
+              
                 <div class="info-usuario">
-                    <p><%=usuario.usuario%></p> 
-                    <a class="follow" href="">seguir</a>
+                    <p><%= usuariodb.user %></p> 
+
+                    <% if(locals.usuario) { %>
+                        <% if(locals.usuario.id != usuariodb.id) { %>
+                            <a class="follow" href="">seguir</a>
+                        <% } %>
+                    <% } %>
+
                     <ul class="meta">
-                        <li>100 post</li>
-                        <li>200 seguidores</li>
-                        <li>300 seguidos</li>
+                        <li><%= usuariodb.posteos.length %> post</li>
+                        <li><%= usuariodb.misSeguidores.length %> seguidores</li>
+                        <li><%= usuariodb.misSeguidos.length %> seguidos</li>
                     </ul>
                 </div>
             </section>
             <section class="bottom">
-                <% for(let i = 0; i < posteos.length; i++) { %>
-                    <% let post = posteos[i] %>
+                <% for(let i = 0; i < usuariodb.posteos.length; i++) { %>
+                    <% let post = usuariodb.posteos[i] %>
                     <article class="post">
                         <a href="detallePost.html">
-                            <img src="<%=post.nombre_imagen%>" alt="">
+                            <img src="/images/posts/<%=post.nombre_imagen%>" alt="">
                         </a>
                     </article>
                 <% } %>

@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var db = require('./database/models')
 const session = require('express-session');
 
 
@@ -37,6 +37,32 @@ app.use(function(req, res, next) {
 
   return next();
 });
+
+
+/* #nota: Crear middleware de cookies AQUI */
+app.use(function(req, res, next) {
+  if (req.cookies.userId != undefined && req.session.usuario == undefined) {
+      let idUsuarioEnCookie = req.cookies.userId;
+
+      db.Usuario.findByPk(idUsuarioEnCookie)
+      .then((usuario) => {
+
+        req.session.usuario = usuario.dataValues;
+        res.locals.usuario  = usuario.dataValues;
+
+        return next();
+        
+      }).catch((err) => {
+        console.log(err);
+        return next();
+      });
+  } else {
+    return next();
+  }
+
+
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postRouter);

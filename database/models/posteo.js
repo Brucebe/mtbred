@@ -37,11 +37,10 @@ module.exports = function (sequelize, dataTypes ) {
             foreignKey:'id_usuario',
             as:'usuario'
         })
-        Posteo.belongsToMany(models.Usuario,{
-            through:'comentarios',
-            as:'comentario',
+
+        Posteo.hasMany(models.Comentario,{
             foreignKey:'id_posteo',
-            otherKey:'id_usuario'
+            as:'comentario'
         })
     }
     /* 5to paso : crear el metodo define() con los 3 parametros */

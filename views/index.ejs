@@ -13,15 +13,16 @@
                 <% let post = posteos[i] %>
                 <article class="post">
                     <div class="info-usuario">
-                        <img src="<%= post.foto_perfil %>" alt="">
+                        <img src="/images/usuarios/<%= post.usuario.foto %>" alt="">
                         <h4>
-                            <a href="/users/detalleUsuario/1"><%= post.usuario %></a>
+                            <a href="/users/detalleUsuario/<%= post.id_usuario %>"><%= post.usuario.user %></a>
                         </h4>
                     </div>
                     <div class="post-body">
                         <a href="/posts/detallePost/<%=post.id%>">
-                            <img src="<%= post.nombre_imagen %>" alt="">
+                            <img src="/images/posts/<%= post.nombre_imagen %>" alt="">
                         </a>
+                        <p><%= post.texto_imagen %></p>
                     </div>
                     <ul class="post-reacciones">
                         <li>
@@ -34,11 +35,11 @@
                     <div class="post-comentarios">
                         <h4>Comentarios</h4>
                         <ul>
-                            <% for(let j = 0; j < post.comentarios.length; j++) { %>
-                                <% let comentario = post.comentarios[j] %>
+                            <% for(let j = 0; j < post.comentario.length; j++) { %>
+                                <% let comentario = post.comentario[j] %>
                                 <li>
-                                    <a href="/users/detalleUsuario/<%= comentario.id_usuario %>"><%= comentario.usuario %></a>
-                                    <span><%= comentario.comentario %></span>
+                                    <a href="/users/detalleUsuario/<%= comentario.id_usuario %>"><%= comentario.usuario.email %></a>
+                                    <span><%= comentario.texto_comentario %></span>
                                 </li>
                             <% } %>
                             <a href="/posts/detallePost/<%= post.id %>">Ver más...</a>

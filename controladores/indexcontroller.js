@@ -1,35 +1,44 @@
 //requires     funcion require() 
 
 const db = require('../database/models')
+const op = db.Sequelize.Op;
 
 //metodos
 
 const indexController = {
   home: function(req, res) {
     db.Posteo.findAll({
-      include:[{
-        model:db.Usuario,
-        as:'usuario'
+      include: {
+        all: true,
+        nested: true
       },
-      {
-        model:db.Usuario,
-        as:'comentario',
-        through:{
-          attributes:['texto_comentario']
-        },
-        include: {
-          model:db.Usuario
-        }
-        
-      }]
+      order:[['id', 'DESC']]
     })
     .then((posteos)=>{
-      res.send(posteos)
+      // res.send(posteos)
+      res.render('index', {posteos: posteos})
     })
       //res.render('index', {posteos: index.posteos});
     },
     busqueda: function(req, res) {
-      res.render('resultadoBusqueda');
+
+      let busqueda = req.query.search
+
+      db.Posteo.findAll({
+        include: {
+          all: true,
+          nested: true
+        },
+        order:[['id', 'DESC']],
+        where: {
+          texto_imagen: {[op.like] : "%" + busqueda + "%"}
+        }
+      })
+      .then((posteos)=>{
+        // res.send(posteos)
+        res.render('resultadoBusqueda', {posteos: posteos});
+      })
+
     },
 }
 
