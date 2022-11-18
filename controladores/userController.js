@@ -42,15 +42,15 @@ const userController = {
 
   registrarUsuario: function (req, res) {
     db.Usuario.create({
-      email: req.body.email,
-      user: req.body.user,
-      contrasenia: bcrypt.hashSync(req.body.password, 12),
+      email: req.body.email, // req.body.email = juanperez@gmail.com
+      user: req.body.user, // req.body.user = jperez
+      contrasenia: bcrypt.hashSync(req.body.password, 12), //salt
       foto: req.file.filename,
       fecha: req.body.fecha,
       dni: req.body.dni
     })
-      .then(() => res.redirect('/users/login'))
-
+    .then(() => res.redirect('/users/login'))
+    .catch(error => console.log(error))
   },
 
   signin: function (req, res) {
@@ -60,10 +60,10 @@ const userController = {
     }
     db.Usuario.findOne({
       where: {
-        email: req.body.email,
+        email: req.body.email, 
       }
     })
-      .then((usuario) => {
+    .then((usuario) => {
         if (usuario == null) {
           res.locals.errors = "email no existe"
           return res.render('login');
@@ -75,7 +75,7 @@ const userController = {
 
         req.session.usuario = usuario
         res.cookie("userId", usuario.id, {
-          maxAge: 10 * 60 * 1000
+          maxAge: 10 * 60 * 1000 //10 min
         })
         res.redirect("/")
       })

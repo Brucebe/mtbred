@@ -45,11 +45,11 @@ module.exports = function (sequelize, dataTypes ) {
     
     const Usuario = sequelize.define(alias, cols, config);
 
-
     Usuario.associate = function(models) {
+        
         Usuario.hasMany(models.Posteo, {
             foreignKey: 'id_usuario',
-            as: 'posteos'
+            as: 'posteos' // usuario.posteos.img
         })
 
         Usuario.belongsToMany(models.Usuario, {
@@ -59,7 +59,6 @@ module.exports = function (sequelize, dataTypes ) {
             otherKey: 'id_seguidor',
             timestamps: true  
         })
-
 
         Usuario.belongsToMany(models.Usuario, {
             as: 'misSeguidos',

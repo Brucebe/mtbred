@@ -24,7 +24,7 @@ router.get('/miPerfil/:id', userController.miPerfil);
 router.get('/registracion', userController.registracion);
 router.get('/editarPerfil', userController.editarPerfil);
 router.get('/detalleUsuario/:id', userController.detalleUsuario);
-router.post('/registrarUsuario',upload.single('photo'), userController.registrarUsuario);
+router.post('/registrarUsuario', upload.single('photo'), userController.registrarUsuario);
 router.post('/signin', userController.signin);
 router.get('/logout', userController.logout);
 
